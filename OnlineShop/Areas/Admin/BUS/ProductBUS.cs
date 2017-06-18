@@ -58,5 +58,6 @@ namespace OnlineShop.Areas.Admin.BUS
             var db = new ASP_OnlineShopConnectionDB();
             return db.Query<NhaSanXuat>("Select * FROM NhaSanXuat");
         }
+        //trang detail
     }
 }
