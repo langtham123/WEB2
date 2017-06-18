@@ -1,0 +1,201 @@
+﻿@model IEnumerable<ASP_OnlineShopConnection.V_GioHang>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<h2>Giỏ hàng của bạn</h2>
+<hr/>
+<div class="Cart">
+    @if (Model.Count() == 0)
+    {
+        <h3>Giỏ hàng rỗng!</h3>
+    }
+    else
+    {
+        foreach (var item in Model)
+        {
+            @*<div>
+                    @using (Html.BeginForm("Update", "ProductCart", FormMethod.Post))
+                    {
+                        @Html.Hidden("id", item.Id)
+                        <div class="col-md-8">@item.TenSanPham</div>
+                        <div class="col-md-2"><input name="soluong" value="@item.SoLuong" /></div">
+                        <div class="col-md-2"><input type="submit" value="Cập nhật" /></div>
+                    }
+                </div>*@
+            <div class="hinhSP_Cart">
+                <a href="#">
+                    <img src="~/images/product/@item.HinhUrl" width="100" height="100" style="float: left;  margin-top: 20px;" />
+                </a>
+                @using (Html.BeginForm("Delete", "ProductCart", FormMethod.Post))
+                {
+                    @Html.Hidden("id", item.Id)
+                    <input type="submit" value="Xóa" style="border-radius: 25px; color: red; text-decoration: none; line-height: 50px; margin-left: 40px; text-align: center; background-color: white; border:none;" />
+                }
+            </div>
+            <div class="thongTinSP_Cart">
+                <h3>@item.TenSanPham</h3>
+                > Tặng gói bảo hiểm rơi vỡ HOẶC Trả góp 0% với HSBC, CitiBank, Home Credit (đến 31/12) <br>
+                > Cơ hội trúng 1 trong 3 xe Liberty khi mua iPhone tại Hà Nội (đến 31/12) <br>
+                > Giảm ngay 5% khi Mua Laptop/ Tablet (đến 31/12)
+            </div>
+            <div class="gia_Cart">
+                <font style="color: red; font-size: 20px;">@item.GiaBan<ins>đ</ins></font>
+                <div class="congTru_Cart">
+                    @using (Html.BeginForm("UpdateMinus", "ProductCart", FormMethod.Post))
+                    {
+                        @Html.Hidden("id", item.Id)
+                        @Html.Hidden("soluong", item.SoLuong)
+                        <input type="submit" value="-" />
+                    }
+                    <label class="lblSoLuongSP">@item.SoLuong</label>
+                    @using (Html.BeginForm("UpdatePlus", "ProductCart", FormMethod.Post))
+                    {
+                        @Html.Hidden("id", item.Id)
+                        @Html.Hidden("soluong", item.SoLuong)
+                        <input type="submit" value="+" />
+                    }
+                </div>
+            </div>
+            <div class="gach">
+                <hr>
+            </div>
+        }
+        <div class="tongTien_Cart">
+            <h2>Tổng tiền:</h2>
+            <h3>
+                <font style="color: red;">
+                    @Model.Sum(x => x.SoLuong * x.GiaBan) <ins>đ</ins>
+                </font>
+            </h3>
+        </div>
+        <div class="gach">
+            <hr>
+        </div>
+        <div id="divabtnDatHang">
+            @using (Html.BeginForm("BuyNow", "ProductCart", FormMethod.Post))
+            {
+                <input class="abtnDatHang" type="submit" value="Thanh toán" />
+            }
+            @*<a class="abtnDatHang" href="#">Đặt hàng</a>*@
+        </div>
+    } 
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".abtnDatHang").click(function () {
+            alert('Cảm ơn bạn đã đặt hàng!');
+        });
+    });
+</script>
+
+<style type="text/css">
+    .Cart {
+        margin: auto;
+        width: 700px;
+        min-height: 500px;
+        background-color: white;
+        margin-top: 10px;
+        box-shadow: 0px 0px 20px grey;
+        margin-bottom: 20px;
+    }
+
+    .hinhSP_Cart {
+        float: left;
+        width: 100px;
+        height: 200px;
+    }
+
+    .thongTinSP_Cart {
+        float: left;
+        width: 400px;
+        height: 200px;
+        margin: 0px 10px;
+    }
+
+    .gia_Cart {
+        float: right;
+        width: 180px;
+        height: 200px;
+    }
+
+    .congTru_Cart {
+        top: 100%;
+        width: 180px;
+        height: 40px;
+        margin-top: 140px;
+    }
+
+        .congTru_Cart input {
+            text-decoration: none;
+            float: left;
+            width: 50px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            font-size: 25px;
+            color: blue;
+            box-shadow: 0 0 1px 1px #d9d9d9;
+            background-color: white;
+        }
+
+        .congTru_Cart label {
+            float: left;
+            width: 50px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            box-shadow: 0 0 1px 1px #d9d9d9;
+        }
+
+    .tongTien_Cart {
+        float: left;
+        width: 640px;
+        margin-top: 10px;
+        margin-left: 30px;
+    }
+
+        .tongTien_Cart h3 {
+            margin-top: -45px;
+            float: right;
+        }
+
+    .gach {
+        width: 100%;
+        float: left;
+    }
+
+    #divabtnDatHang {
+        margin-left: 20%;
+    }
+
+        #divabtnDatHang a {
+            width: 400px;
+            height: 50px;
+            background-color: orange;
+            color: white;
+            text-decoration: none;
+            display: table-cell;
+            border-radius: 7px;
+            text-align: center;
+            line-height: 50px;
+            font-size: 20px;
+        }
+
+
+    .abtnDatHang {
+        width: 400px;
+        height: 50px;
+        background-color: orange;
+        color: white;
+        text-decoration: none;
+        display: table-cell;
+        border-radius: 7px;
+        text-align: center;
+        line-height: 50px;
+        font-size: 20px;
+    }
+</style>

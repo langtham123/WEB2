@@ -1,0 +1,224 @@
+﻿@*@model IEnumerable<ASP_OnlineShopConnection.SanPham>*@
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="banner-bootom-w3-agileits">
+    <div class="container">
+        <div class="col-md-5 bb-grids bb-left-agileits-w3layouts">
+            <a href="#">
+                <div class="bb-left-agileits-w3layouts-inner">
+                    <h3>SALE</h3>
+                    <h4>upto<span>75%</span></h4>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 bb-grids bb-middle-agileits-w3layouts">
+            <a href="#">
+                <div class="bb-middle-top">
+                    <h3>SALE</h3>
+                    <h4>upto<span>55%</span></h4>
+                </div>
+            </a>
+            <a href="#">
+                <div class="bb-middle-bottom">
+                    <h3>SALE</h3>
+                    <h4>upto<span>65%</span></h4>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 bb-grids bb-right-agileits-w3layouts">
+            <a href="#">
+                <div class="bb-right-top">
+                    <h3>SALE</h3>
+                    <h4>upto<span>50%</span></h4>
+                </div>
+            </a>
+            <a href="#">
+                <div class="bb-right-bottom">
+                    <h3>SALE</h3>
+                    <h4>upto<span>60%</span></h4>
+                </div>
+            </a>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="top-products">
+    <div class="container">
+        <h3>Top Products</h3>
+        <div class="sap_tabs">
+            <div id="horizontalTab">
+                @*<ul class="resp-tabs-list">
+                    <li class="resp-tab-item"><span>Men's</span></li>
+                    <li class="resp-tab-item"><span>Women</span></li>
+                    <li class="resp-tab-item"><span>Handbags</span></li>
+                    <li class="resp-tab-item"><span>Cosmetics</span></li>
+                </ul>*@
+                @Html.Partial("_ProductTypeMenu", OnlineShop.BUS.ProductTypeBUS.ListProductType())
+                <div class="clearfix"> </div>
+                    <div class="resp-tabs-container">
+                        <div id="listProduct_loadMore" class="tab-1 resp-tab-content">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script id="product-template" type="text/x-handlebars-template">
+    <div class="col-md-3 top-product-grids tp1 animated wow slideInUp" data-wow-delay=".5s">
+        <a href="/Product/Details/{{maSanPham}}">
+            <div class="product-img">
+                <img src="/images/product/{{hinhUrl}}" alt="" />
+                <div class="p-mask">
+                    @*<form action="#" method="post">
+                        <input type="hidden" name="cmd" value="_cart" />
+                        <input type="hidden" name="add" value="1" />
+                        <input type="hidden" name="w3ls1_item" value="Formal shoes" />
+                        <input type="hidden" name="amount" value="220.00" />
+                        <button type="submit" class="w3ls-cart pw3ls-cart">
+                            <i class="fa fa-cart-plus" aria-hidden="true"></i>Add to cart
+                        </button>
+                    </form>*@
+                    @using (Html.BeginForm("AddToCart", "ProductCart", FormMethod.Get))
+                    {
+                        <input type="hidden" name="maSanPham" value="{{maSanPham}}"/>
+                        <button type="submit" class="w3ls-cart pw3ls-cart">
+                            <i class="fa fa-cart-plus" aria-hidden="true"></i>Add to cart
+                        </button>
+                    }
+                </div>
+            </div>
+        </a>
+        <i class="fa fa-star yellow-star" aria-hidden="true"></i>
+        <i class="fa fa-star yellow-star" aria-hidden="true"></i>
+        <i class="fa fa-star yellow-star" aria-hidden="true"></i>
+        <i class="fa fa-star gray-star" aria-hidden="true"></i>
+        <i class="fa fa-star gray-star" aria-hidden="true"></i>
+        <h4>{{tenSanPham}}</h4>
+        <h5>{{giaBan}}</h5>
+    </div>
+</script>
+
+<script>
+    let isLoading = false;
+    var currentPage = 0;
+    function loadMoreProduct(pageIndex) {
+        isLoading = true;
+        $.getJSON("/api/product?page=" + pageIndex, function (data) {
+            var source = $("#product-template").html();
+            var template = Handlebars.compile(source);
+            let productHtml = "";
+            data.items.forEach(function (product) {
+                productHtml += template(product);
+            });
+            $("#listProduct_loadMore").append(productHtml);
+            isLoading = false;
+        });
+    }
+
+    $(document).ready(function () {
+
+        //load dau tien
+        loadMoreProduct(++currentPage);
+
+        var win = $(window);
+        // Each time the user scrolls
+        win.scroll(function () {
+            // End of the document reached?
+            if ($(document).height() - win.height() == win.scrollTop() && !isLoading) {
+                loadMoreProduct(++currentPage);
+            }
+        });
+    });
+</script>
+
+@*<div class="banner-bootom-w3-agileits">
+        <div class="container">
+            <div class="col-md-5 bb-grids bb-left-agileits-w3layouts">
+                <a href="women.html">
+                    <div class="bb-left-agileits-w3layouts-inner">
+                        <h3>SALE</h3>
+                        <h4>upto<span>75%</span></h4>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4 bb-grids bb-middle-agileits-w3layouts">
+                <a href="shoes.html">
+                    <div class="bb-middle-top">
+                        <h3>SALE</h3>
+                        <h4>upto<span>55%</span></h4>
+                    </div>
+                </a>
+                <a href="jewellery.html">
+                    <div class="bb-middle-bottom">
+                        <h3>SALE</h3>
+                        <h4>upto<span>65%</span></h4>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 bb-grids bb-right-agileits-w3layouts">
+                <a href="watches.html">
+                    <div class="bb-right-top">
+                        <h3>SALE</h3>
+                        <h4>upto<span>50%</span></h4>
+                    </div>
+                </a>
+                <a href="handbags.html">
+                    <div class="bb-right-bottom">
+                        <h3>SALE</h3>
+                        <h4>upto<span>60%</span></h4>
+                    </div>
+                </a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="top-products">
+        <div class="container">
+            <h3>Top Products</h3>
+            <div class="sap_tabs">
+                <div id="horizontalTab">
+                    <ul class="resp-tabs-list">
+                        <li class="resp-tab-item"><span>Men's</span></li>
+                        <li class="resp-tab-item"><span>Women</span></li>
+                        <li class="resp-tab-item"><span>Handbags</span></li>
+                        <li class="resp-tab-item"><span>Cosmetics</span></li>
+                    </ul>
+                    <div class="clearfix"> </div>
+                    <div class="resp-tabs-container">
+                        <div class="tab-1 resp-tab-content">
+                            @foreach (var item in Model)
+                            {
+                                <div class="col-md-3 top-product-grids tp1 animated wow slideInUp" data-wow-delay=".5s">
+                                    <a href="~/Product/Details/@item.MaSanPham">
+                                        <div class="product-img">
+                                            <img src="~/images/@item.HinhUrl" alt="" />
+                                            <div class="p-mask">
+                                                <form action="#" method="post">
+                                                    <input type="hidden" name="cmd" value="_cart" />
+                                                    <input type="hidden" name="add" value="1" />
+                                                    <input type="hidden" name="w3ls1_item" value="Formal shoes" />
+                                                    <input type="hidden" name="amount" value="220.00" />
+                                                    <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <i class="fa fa-star yellow-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star yellow-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star yellow-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star gray-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star gray-star" aria-hidden="true"></i>
+                                    <h4>@item.TenSanPham</h4>
+                                    <h5>@item.GiaBan</h5>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@

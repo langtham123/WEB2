@@ -1,0 +1,13 @@
+﻿@model IEnumerable<ASP_OnlineShopConnection.NhaSanXuat>
+@{ Layout = null; }
+<ul class="multi-column-dropdown">
+    @foreach (var item in Model)
+    {
+        <li>
+            <a href="women.html">
+                @Html.ActionLink(item.TenNhaSanXuat, "Producer", "Product", new { id = item.MaNhaSanXuat }, null)
+            </a>
+        </li>
+
+    }
+</ul>

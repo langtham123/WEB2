@@ -1,0 +1,12 @@
+﻿@model IEnumerable<ASP_OnlineShopConnection.NhaSanXuat>
+
+<ul class="resp-tabs-list">
+    @foreach (var item in Model)
+    {
+        <li class="resp-tab-item">
+            <span>
+                @Html.ActionLink(item.TenNhaSanXuat, "Producer", "Product", new { id = item.MaNhaSanXuat }, null)
+            </span>
+        </li>
+    }
+</ul>

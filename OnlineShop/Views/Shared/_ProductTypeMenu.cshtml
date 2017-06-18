@@ -1,0 +1,30 @@
+﻿@model IEnumerable<ASP_OnlineShopConnection.LoaiSanPham>
+
+<ul class="resp-tabs-list">
+    @foreach (var item in Model)
+    {
+        <li class="resp-tab-item">
+            <span>
+                @Html.ActionLink(item.TenLoaiSanPham, "Type", "Product", new { id = item.MaLoaiSanPham }, null)
+            </span>
+        </li>
+    }
+</ul>
+
+
+
+
+
+@*@model IEnumerable<ASP_OnlineShopConnection.LoaiSanPham>
+
+<ul class="multi-column-dropdown">
+    @foreach (var item in Model)
+    {
+
+        <li>
+            <a href="women.html">
+                @Html.ActionLink(item.TenLoaiSanPham, "Type", "Products", new { id = item.MaLoaiSanPham }, null)
+            </a>
+        </li>
+    }
+</ul>*@

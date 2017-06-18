@@ -1,0 +1,40 @@
+﻿@model IEnumerable<ASP_OnlineShopConnection.BinhLuan>
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    using (Html.BeginForm("Create", "BinhLuan", FormMethod.Post))
+    {
+        @*@Html.AntiForgeryToken()
+        @Html.Hidden("MaSanPham", (int)ViewBag.MaSanPham)
+        <textarea class="form-control" rows="5" id="comment" name="NoiDung"></textarea>
+        <input type="submit" value="Đăng" />*@
+
+        //Ajax
+        <textarea class="form-control" id="comment-content"></textarea>
+        <input value="Đăng" type="button" onclick="postComment()" />
+    }
+}
+else
+{
+    <div>Vui lòng <a href="/Account/Login">Đăng nhập</a> để bình luận</div>
+}
+
+<div>
+    <hr />
+</div>
+<div id="comments">
+    @foreach (var item in Model)
+    {
+        <div class="comments">
+            <div class="comments-name">@item.TenTaiKhoan</div>
+            <div class="comments-name">@item.NoiDungBinhLuan</div>
+        </div>
+        <hr />
+    }
+</div>
+
+
