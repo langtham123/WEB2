@@ -21,5 +21,6 @@ namespace OnlineShop.Areas.Admin
                 namespaces: new[] { "OnlineShop.Areas.Admin.Controllers" }
             );
         }
+        //dsadsadsad
     }
 }
